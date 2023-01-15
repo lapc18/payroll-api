@@ -1,0 +1,8 @@
+version: "1.0"
+services:
+  sb-app:
+    build:
+      dockerfile: Dockerfile
+    container_name: "payroll-api"
+    ports:
+      - 9903:9903

@@ -12,7 +12,7 @@
 	<artifactId>atdev.payroll</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>atdev.payroll</name>
-	<description>System to deliver payroll vouchers </description>
+	<description>System to deliver payroll vouchers</description>
 	<properties>
 		<java.version>19</java.version>
 	</properties>
@@ -44,6 +44,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>sb-app</finalName>
 	</build>
 
 </project>
