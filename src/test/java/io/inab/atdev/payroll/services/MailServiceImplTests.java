@@ -1,6 +1,7 @@
 package io.inab.atdev.payroll.services;
 
 import io.inab.atdev.payroll.core.models.MailDetails;
+import io.inab.atdev.payroll.core.models.MailResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +22,16 @@ public class MailServiceImplTests {
     @Test
     public void sendSimpleEmail() {
         MailDetails details = new MailDetails("devlapc18@gmail.com", "AtDev: testing API Email Service Impl", "Unit test of simple email");
-        assertThat(this.mailService.sendEmail(details)).isTrue();
+        MailResponse response = this.mailService.sendEmail(details);
+        assertThat(response).isNotNull();
+        assertThat(response.getException()).isNull();
+    }
+
+    @Test
+    public void notSendSimpleEmail() {
+        MailDetails details = new MailDetails("devlapc18@", "AtDev: testing API Email Service Impl", "Unit test of simple email");
+        MailResponse response = this.mailService.sendEmail(details);
+        assertThat(response).isNotNull();
+        assertThat(response.getException()).isNotNull();
     }
 }
