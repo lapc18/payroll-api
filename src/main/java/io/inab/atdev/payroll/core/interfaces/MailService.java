@@ -1,11 +1,12 @@
 package io.inab.atdev.payroll.core.interfaces;
 
 import io.inab.atdev.payroll.core.models.MailDetails;
+import io.inab.atdev.payroll.core.models.MailResponse;
 
 public interface MailService {
 
-    Boolean sendEmail(MailDetails details);
+    MailResponse sendEmail(MailDetails details);
 
-    Boolean sendEmailWithAttachment(MailDetails details);
+    MailResponse sendEmailWithAttachment(MailDetails details);
 }
 

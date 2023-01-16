@@ -23,7 +23,7 @@ public class TestController {
 
     @PostMapping("/email")
     public ResponseEntity<?> testEmail() {
-        boolean test = this.mailService.sendEmail(new MailDetails(
+        var test = this.mailService.sendEmail(new MailDetails(
                 "devlapc18@gmail.com",
                 "real testing",
                 "real message shady"
