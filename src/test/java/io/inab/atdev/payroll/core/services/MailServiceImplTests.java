@@ -1,7 +1,8 @@
-package io.inab.atdev.payroll.services;
+package io.inab.atdev.payroll.core.services;
 
 import io.inab.atdev.payroll.core.models.MailDetails;
 import io.inab.atdev.payroll.core.models.MailResponse;
+import io.inab.atdev.payroll.services.MailServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
