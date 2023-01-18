@@ -1,17 +1,30 @@
 package io.inab.atdev.payroll.domain.entities;
 
+import com.opencsv.bean.CsvBindByName;
+
 public class Employee {
 
+    @CsvBindByName
     private String full_name;
+    @CsvBindByName
     private String email;
+    @CsvBindByName
     private String position;
+    @CsvBindByName
     private double health_discount_amount;
+    @CsvBindByName
     private double social_discount_amount;
+    @CsvBindByName
     private double taxes_discount_amount;
+    @CsvBindByName
     private double other_discount_amount;
+    @CsvBindByName
     private double gross_salary;
+    @CsvBindByName
     private double gross_payment;
+    @CsvBindByName
     private double net_payment;
+    @CsvBindByName
     private String period;
 
     public Employee() {
