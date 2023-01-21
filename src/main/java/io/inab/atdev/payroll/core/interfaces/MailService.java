@@ -7,6 +7,6 @@ public interface MailService {
 
     MailResponse sendEmail(MailDetails details);
 
-    MailResponse sendEmailWithAttachment(MailDetails details);
+    MailResponse sendEmailWithAttachment(MailDetails details, String attachmentName);
 }
 

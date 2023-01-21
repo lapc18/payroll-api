@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+        name="viewport" />
+    <meta content="ie=edge" http-equiv="X-UA-Compatible" />
+    <style>
+        @page {
+            size: A4 landscape;
+        }
+
+        .header-container {
+            width: 100%;
+            height: auto;
+            padding-bottom: 10rem;
+        }
+
+        .logo {
+            width: 40%;
+            height: 150px;
+            background-color: red;
+            object-fit: contain;
+            float: left;
+        }
+
+        .header {
+            width: 50%;
+            float: right;
+        }
+
+        .details {
+            width: 100%;
+            height: auto;
+            min-height: 500px;
+        }
+
+        .salary {
+            float: left;
+        }
+
+        .discounts {
+            float: right;
+            width: 35%;
+            text-align: center;
+        }
+
+        .inline {
+            display: flex;
+            align-items: center;
+        }
+
+        .inline.space-between {
+            justify-content: space-around;
+            line-height: 0;
+        }
+
+        .p-1 {
+            padding: 1rem;
+        }
+
+        .pb-5 {
+            padding-bottom: 15rem;
+        }
+
+        .pt-2 {
+            padding-top: 2rem;
+        }
+    </style>
+    <title>Paystub</title>
+</head>
+
+<body>
+    <div class="header-container">
+        <img src="https://kb.itextpdf.com/home/_/BC5D99AB01708BCE0C7569525362D304/1592491314946/images/ITSC-Logo-Horizontal-RGB-300dpi.png"
+            class="logo" />
+        <div class="header">
+            <br />
+            <div class="inline">
+                <h4 th:text="'Comprobante de pago:' + ${employee.period}"></h4>
+            </div>
+            <div class="inline">
+                <h4 th:text="${employee.full_name}"></h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="details">
+        <div class="salary">
+            <div class="inline pb-5 pt-2">
+                <h4 th:text="'Salario Bruto:' + ${employee.gross_salary}"></h4>
+            </div>
+            <div class="inline">
+                <h4 th:text="'Pago neto: ' + ${employee.gross_payment}"></h4>
+            </div>
+
+        </div>
+
+
+        <div class="discounts">
+            <h4>Descuentos</h4>
+            <div class="inline space-between">
+                <p>SFS: </p>
+                <h4 th:text="${employee.social_discount_amount}"></h4>
+            </div>
+            <div class="inline space-between">
+                <p>AFP: </p>
+                <h4 th:text="${employee.health_discount_amount}"></h4>
+            </div>
+            <div class="inline space-between">
+                <p>ISR: </p>
+                <h4 th:text="${employee.taxes_discount_amount}"></h4>
+            </div>
+            <div class="inline space-between">
+                <p>Otros: </p>
+                <h4 th:text="${employee.other_discount_amount}"></h4>
+            </div>
+            <div class="inline space-between">
+                <h4>Total: </h4>
+                <h4 th:text="${employee.other_discount_amount}"></h4>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+</body>
+
+</html>

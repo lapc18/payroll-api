@@ -4,14 +4,16 @@ import io.inab.atdev.payroll.core.helpers.CSVHelper;
 import io.inab.atdev.payroll.core.models.MailDetails;
 import io.inab.atdev.payroll.domain.entities.Employee;
 import io.inab.atdev.payroll.services.MailServiceImpl;
+import io.inab.atdev.payroll.services.PDFGeneratorImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.io.ByteArrayInputStream;
+import java.lang.reflect.Field;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/test")
@@ -19,6 +21,9 @@ public class TestController {
 
     @Autowired
     public MailServiceImpl mailService;
+
+    @Autowired
+    public PDFGeneratorImpl pdfGeneratorService;
 
     @GetMapping("")
     public ResponseEntity<?> test() {
@@ -45,6 +50,40 @@ public class TestController {
             throw new RuntimeException(e);
         }
         return ResponseEntity.ok(test);
+    }
+
+    @Value("${spring.mail.username}")
+    private String from;
+    @PostMapping("/pdf")
+    public ResponseEntity<?> testPDF(@RequestParam("file") MultipartFile file) {
+
+        List<Employee> test = null;
+        try {
+            test = new LinkedList<Employee>(Objects.requireNonNull(CSVHelper.toList(file, Employee.class)));
+            var arr = test.stream().findFirst();
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("employee", arr.get());
+
+            String filename = "payroll_" + Calendar.getInstance().getTime() + ".pdf";
+            var byteArrayInputStreams= this.pdfGeneratorService
+                    .generatePdfFile("/email-template-es.html", map, filename);
+
+            var details = new MailDetails(
+                    "devlapc18@gmail.com",
+                    this.from,
+                    "real testing with attachment",
+                    "real message shady with attachment"
+            );
+            details.setAttachment(byteArrayInputStreams);
+            this.mailService.sendEmailWithAttachment(details, filename);
+
+            return ResponseEntity.ok(test);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 

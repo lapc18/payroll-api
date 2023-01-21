@@ -6,14 +6,18 @@ import io.inab.atdev.payroll.core.models.MailDetails;
 import io.inab.atdev.payroll.core.models.MailResponse;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -50,7 +54,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public MailResponse sendEmailWithAttachment(MailDetails details) {
+    public MailResponse sendEmailWithAttachment(MailDetails details, String attachmentName) {
         MailResponse response;
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
@@ -62,11 +66,8 @@ public class MailServiceImpl implements MailService {
             message.setSubject(details.getSubject());
             message.setSentDate(Calendar.getInstance().getTime());
 
-            //TODO: remove this and implement generated PDF
-            FileSystemResource file = new FileSystemResource(new File(details.getAttachment()));
-            String filename = file.getFilename() != null ? file.getFilename() : "Voucher";
-            message.addAttachment(filename, file);
 
+            message.addAttachment(attachmentName, new ByteArrayResource(details.getAttachment()));
             this.mailSender.send(mimeMessage);
             response = new MailResponse(details.getTo(), Calendar.getInstance().getTime());
             return response;

@@ -3,6 +3,8 @@ package io.inab.atdev.payroll.core.models;
 
 import org.springframework.beans.factory.annotation.Value;
 
+import java.io.ByteArrayInputStream;
+
 public class MailDetails {
 
     private String to;
@@ -10,7 +12,7 @@ public class MailDetails {
     @Value("${spring.mail.username}")
     private String from;
     private String subject;
-    private String attachment;
+    private byte[] attachment;
     private String body;
 
     public MailDetails() {
@@ -23,7 +25,7 @@ public class MailDetails {
         this.body = body;
     }
 
-    public MailDetails(String to, String from, String subject, String attachment, String body) {
+    public MailDetails(String to, String from, String subject, byte[] attachment, String body) {
         this.to = to;
         this.from = from;
         this.subject = subject;
@@ -62,11 +64,11 @@ public class MailDetails {
         this.subject = subject;
     }
 
-    public String getAttachment() {
+    public byte[] getAttachment() {
         return attachment;
     }
 
-    public void setAttachment(String attachment) {
+    public void setAttachment(byte[] attachment) {
         this.attachment = attachment;
     }
 
