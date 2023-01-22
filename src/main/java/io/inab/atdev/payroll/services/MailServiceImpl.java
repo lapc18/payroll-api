@@ -70,6 +70,7 @@ public class MailServiceImpl implements MailService {
             message.addAttachment(attachmentName, new ByteArrayResource(details.getAttachment()));
             this.mailSender.send(mimeMessage);
             response = new MailResponse(details.getTo(), Calendar.getInstance().getTime());
+            response.setEmailSent(true);
             return response;
         } catch (Exception e) {
             ExceptionResponse exceptionResponse = new ExceptionResponse();
@@ -81,7 +82,7 @@ public class MailServiceImpl implements MailService {
             exceptionResponse.setCode("500");
             exceptionResponse.setDateTime(Calendar.getInstance().getTime());
             exceptionResponse.setStacktrace(Arrays.asList(e.getStackTrace()));
-            return new MailResponse(details.getTo(), Calendar.getInstance().getTime(), exceptionResponse);
+            return new MailResponse(details.getTo(), Calendar.getInstance().getTime(), exceptionResponse, false);
         }
     }
 }
