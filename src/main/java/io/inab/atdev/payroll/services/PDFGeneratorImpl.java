@@ -33,9 +33,7 @@ public class PDFGeneratorImpl implements IPDFGenerator {
             baos.close();
 
             return baos.toByteArray();
-        } catch (FileNotFoundException e) {
-            return null;
-        } catch (DocumentException e) {
+        } catch (FileNotFoundException | DocumentException e) {
             return null;
         } catch (IOException e) {
             throw new RuntimeException(e);
