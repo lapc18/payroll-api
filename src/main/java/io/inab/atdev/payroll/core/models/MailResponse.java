@@ -5,11 +5,13 @@ import java.util.Date;
 
 public class MailResponse {
 
-    public String email;
+    private String email;
 
-    public Date dateTime;
+    private Date dateTime;
 
     private ExceptionResponse exception;
+
+    private boolean emailSent;
 
     public MailResponse() {
     }
@@ -23,6 +25,21 @@ public class MailResponse {
         this.email = email;
         this.dateTime = dateTime;
         this.exception = exception;
+    }
+
+    public MailResponse(String email, Date dateTime, ExceptionResponse exception, boolean emailSent) {
+        this.email = email;
+        this.dateTime = dateTime;
+        this.exception = exception;
+        this.emailSent = emailSent;
+    }
+
+    public boolean isEmailSent() {
+        return emailSent;
+    }
+
+    public void setEmailSent(boolean emailSent) {
+        this.emailSent = emailSent;
     }
 
     public ExceptionResponse getException() {
