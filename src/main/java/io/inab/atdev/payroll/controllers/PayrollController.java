@@ -39,13 +39,15 @@ public class PayrollController {
 
         String[] credentialArr = credentials.split("\\+");
         if(!credentialArr[0].contains(this.user) || !credentialArr[1].contains(this.pwd))
-            ResponseEntity.status(HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+        if(file == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
         try {
             var response = this.payrollService.process(file, country, company);
             return ResponseEntity.ok(response);
         } catch (IOException e) {
-            return (ResponseEntity<List<PayrollResponse>>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }
