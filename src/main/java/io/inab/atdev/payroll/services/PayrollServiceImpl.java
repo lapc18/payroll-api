@@ -113,8 +113,8 @@ public class PayrollServiceImpl implements IPayrollService {
 
     private String getTemplateName(String locale) {
         if(locale.toLowerCase().contains(Locales.LOCALE_US.toString())) return "/email-template-en.html";
-        else if(locale.toLowerCase().contains(Locales.LOCALE_DO.toString())) return "/email-template-es.html";
-        return null;
+
+        return "/email-template-es.html";
     }
 
     private double getTotalDiscount(Employee employee) {
