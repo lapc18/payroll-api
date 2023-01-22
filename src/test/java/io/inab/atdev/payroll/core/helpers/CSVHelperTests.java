@@ -59,8 +59,8 @@ public class CSVHelperTests {
                 csv.getBytes()
         );
 
-//
-//        assertThat(exception.getMessage()).isEqualTo("Number of data fields does not match number of headers!");
+        Exception exception = Assertions.assertThrows(RuntimeException.class, () -> CSVHelper.toList(file, Employee.class));
+        assertThat(exception.getMessage()).isEqualTo("Number of data fields does not match number of headers!");
     }
 
 }
