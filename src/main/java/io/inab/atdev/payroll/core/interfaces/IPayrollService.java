@@ -2,6 +2,9 @@ package io.inab.atdev.payroll.core.interfaces;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public interface IPayrollService {
-    void process(MultipartFile file);
+import java.io.IOException;
+import java.util.List;
+
+public interface IPayrollService<T> {
+    List<T> process(MultipartFile file, String locale, String company) throws IOException;
 }
