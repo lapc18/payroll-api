@@ -77,7 +77,7 @@
         <div class="header">
             <br />
             <div class="inline">
-                <h4 th:text="'Comprobante de pago:' + ${employee.period}"></h4>
+                <h4 th:text="'Paystub Payment:' + ${employee.period}"></h4>
             </div>
             <div class="inline">
                 <h4 th:text="${employee.full_name}"></h4>
@@ -88,36 +88,31 @@
     <div class="details">
         <div class="salary">
             <div class="inline pb-5 pt-2">
-                <h4 th:text="'Salario Bruto:' + ${employee.gross_salary}"></h4>
+                <h4 th:text="'Gross Salary:' + ${employee.gross_salary}"></h4>
             </div>
             <div class="inline">
-                <h4 th:text="'Pago neto: ' + ${employee.gross_payment}"></h4>
+                <h4 th:text="'Net Payment: ' + ${employee.gross_payment}"></h4>
             </div>
 
         </div>
 
 
         <div class="discounts">
-            <h4>Descuentos</h4>
+            <h4>Discounts</h4>
             <div class="inline space-between">
-                <p>SFS: </p>
-                <h4 th:text="${employee.social_discount_amount}"></h4>
+                <h4 th:text="'Health Insurance: ' + ${employee.social_discount_amount}"></h4>
             </div>
             <div class="inline space-between">
-                <p>AFP: </p>
-                <h4 th:text="${employee.health_discount_amount}"></h4>
+                <h4 th:text="'Social Security: ' + ${employee.health_discount_amount}"></h4>
             </div>
             <div class="inline space-between">
-                <p>ISR: </p>
-                <h4 th:text="${employee.taxes_discount_amount}"></h4>
+                <h4 th:text="'Taxes: ' + ${employee.taxes_discount_amount}"></h4>
             </div>
             <div class="inline space-between">
-                <p>Otros: </p>
-                <h4 th:text="${employee.other_discount_amount}"></h4>
+                <h4 th:text="'Others: ' + ${employee.other_discount_amount}"></h4>
             </div>
             <div class="inline space-between">
-                <h4>Total: </h4>
-                <h4 th:text="${employee.other_discount_amount}"></h4>
+                <h4 th:text="'Total: ' + ${totalDiscounts}"></h4>
             </div>
 
         </div>

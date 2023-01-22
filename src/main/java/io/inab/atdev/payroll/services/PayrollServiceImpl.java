@@ -60,9 +60,11 @@ public class PayrollServiceImpl implements IPayrollService {
                 Map<String, Object> map = new HashMap<>();
                 var companyImageFile = this.getCompanyLocalFile(company);
                 var base64Img = this.fileToBase64(companyImageFile);
+                var totalDiscount = this.getTotalDiscount(employee);
 
                 map.put("employee", employee);
                 map.put("company", base64Img);
+                map.put("totalDiscounts", totalDiscount);
 
 
                 var byteArrayInputStreams= this.pdfGeneratorService
@@ -112,5 +114,12 @@ public class PayrollServiceImpl implements IPayrollService {
         if(locale.toLowerCase().contains(Locales.LOCALE_US.toString())) return "/email-template-en.html";
         else if(locale.toLowerCase().contains(Locales.LOCALE_DO.toString())) return "/email-template-es.html";
         return null;
+    }
+
+    private double getTotalDiscount(Employee employee) {
+        return (employee.getSocial_discount_amount() +
+                        employee.getHealth_discount_amount() +
+                        employee.getTaxes_discount_amount() +
+                        employee.getOther_discount_amount());
     }
 }
