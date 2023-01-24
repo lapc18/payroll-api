@@ -42,21 +42,15 @@ public class PayrollServiceImpl implements IPayrollService {
 
     @Override
     public List<PayrollResponse> process(MultipartFile file, @Nullable String locale, @Nullable String company) throws IOException {
-        String filename = "payroll_" + Calendar.getInstance().getTime() + ".pdf";
-        var templateName = this.getTemplateName(locale);
-        List<Employee> employees = null;
-        List<PayrollResponse> results = new ArrayList<>();
-
-
         if(!locale.toLowerCase().contains(Locales.LOCALE_US.toString()) || !locale.toLowerCase().contains(Locales.LOCALE_DO.toString()))
             locale = Locales.LOCALE_DO.toString();
 
-
-
-
+        var templateName = this.getTemplateName(locale);
+        String filename = "payroll_" + Calendar.getInstance().getTime() + ".pdf";
+        List<PayrollResponse> results = new ArrayList<>();
 
         try {
-            employees = new LinkedList<Employee>(Objects.requireNonNull(CSVHelper.toList(file, Employee.class)));
+            List<Employee> employees = new LinkedList<Employee>(Objects.requireNonNull(CSVHelper.toList(file, Employee.class)));
             employees.forEach(employee -> {
                 Map<String, Object> map = new HashMap<>();
                 var companyImageFile = this.getCompanyLocalFile(company);
@@ -74,7 +68,7 @@ public class PayrollServiceImpl implements IPayrollService {
                 var details = new MailDetails(
                         employee.getEmail(),
                         this.from,
-                        "Payroll from period" + employee.getPeriod(),
+                        "Payroll from period " + employee.getPeriod(),
                         "Please, find attached the Payroll file."
                 );
                 details.setAttachment(byteArrayInputStreams);
@@ -102,7 +96,7 @@ public class PayrollServiceImpl implements IPayrollService {
         if(file == null) return null;
 
         var base64 = new org.apache.tomcat.util.codec.binary.Base64();
-        byte[] img = new byte[0];
+        byte img[];
         try {
             img = Files.readAllBytes(file.toPath());
         } catch (IOException e) {
