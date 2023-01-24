@@ -72,7 +72,7 @@ public class PDFGeneratorImplTests {
     @Test
     public void generatePDFTestWithNoTemplatePresent() {
 
-        Assertions.assertThrows(Exception.class, () -> {
+        Assertions.assertDoesNotThrow(() -> {
             MockMultipartFile mockMultipartFile
                     = new MockMultipartFile(
                     "file",
@@ -86,14 +86,8 @@ public class PDFGeneratorImplTests {
             map.put("company", "");
 
             String filename = "payroll_" + Calendar.getInstance().getTime() + ".pdf";
-            var byteArrayInputStreams= this.pdfGeneratorService
-                    .generatePdfFile("/email-template.html", map, filename);
-
-
-            assertThat(byteArrayInputStreams).isNotNull();
-            assertThat(byteArrayInputStreams).isNotEmpty();
-            assertThat(byteArrayInputStreams).isInstanceOf(byte[].class);
-
+            Assertions.assertThrows(RuntimeException.class, () -> this.pdfGeneratorService
+                    .generatePdfFile("/email-template.html", map, filename));
         });
     }
 }

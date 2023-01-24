@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import org.thymeleaf.exceptions.TemplateEngineException;
+import org.thymeleaf.exceptions.TemplateInputException;
+import org.thymeleaf.exceptions.TemplateProcessingException;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import java.io.*;
@@ -22,8 +25,10 @@ public class PDFGeneratorImpl implements IPDFGenerator {
         Context context = new Context();
         context.setVariables(data);
 
-        String htmlContent = templateEngine.process(templateName, context);
+
+
         try {
+            String htmlContent = templateEngine.process(templateName, context);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
             ITextRenderer renderer = new ITextRenderer();
@@ -33,9 +38,7 @@ public class PDFGeneratorImpl implements IPDFGenerator {
             baos.close();
 
             return baos.toByteArray();
-        } catch (FileNotFoundException | DocumentException e) {
-            return null;
-        } catch (IOException e) {
+        } catch (DocumentException | IOException | TemplateProcessingException e) {
             throw new RuntimeException(e);
         }
     }
