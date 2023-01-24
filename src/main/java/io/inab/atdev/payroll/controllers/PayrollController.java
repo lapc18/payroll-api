@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -37,8 +38,12 @@ public class PayrollController {
             @RequestParam String country
     ) {
 
-        String[] credentialArr = credentials.split("\\+");
-        if(!credentialArr[0].contains(this.user) || !credentialArr[1].contains(this.pwd))
+
+        String[] credentialArr = new String[2];
+        credentialArr = credentials.split("\\+", 2);
+        if(credentialArr.length < 2) credentialArr = credentials.split(" ", 2);
+
+        if(credentialArr.length < 2 || !credentialArr[0].contains(this.user) || !credentialArr[1].contains(this.pwd))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
         if(file == null) return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
