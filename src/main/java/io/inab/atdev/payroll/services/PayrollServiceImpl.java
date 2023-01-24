@@ -42,8 +42,6 @@ public class PayrollServiceImpl implements IPayrollService {
 
     @Override
     public List<PayrollResponse> process(MultipartFile file, @Nullable String locale, @Nullable String company) throws IOException {
-        if(!locale.toLowerCase().contains(Locales.LOCALE_US.toString()) || !locale.toLowerCase().contains(Locales.LOCALE_DO.toString()))
-            locale = Locales.LOCALE_DO.toString();
 
         var templateName = this.getTemplateName(locale);
         String filename = "payroll_" + Calendar.getInstance().getTime() + ".pdf";
@@ -84,12 +82,13 @@ public class PayrollServiceImpl implements IPayrollService {
 
     private File getCompanyLocalFile(String company) {
         try {
-            if(company == null || company.length() == 0) return this.fakeCompany.getFile();
-            if(company.toLowerCase().contains("atdev")) return this.company.getFile();
+            if(company.toLowerCase().contains("atdev"))
+                return this.company.getFile();
+
+            return this.fakeCompany.getFile();
         } catch (IOException e) {
             return null;
         }
-        return null;
     }
 
     private String fileToBase64(@Nullable File file) {
@@ -106,7 +105,7 @@ public class PayrollServiceImpl implements IPayrollService {
     }
 
     private String getTemplateName(String locale) {
-        if(locale.toLowerCase().contains(Locales.LOCALE_US.toString())) return "/email-template-en.html";
+        if(locale.toLowerCase().contains(Locales.LOCALE_US.toString().toLowerCase())) return "/email-template-en.html";
 
         return "/email-template-es.html";
     }
