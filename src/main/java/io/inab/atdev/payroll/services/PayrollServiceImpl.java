@@ -34,11 +34,11 @@ public class PayrollServiceImpl implements IPayrollService {
     @Value("${spring.mail.username}")
     private String from;
 
-    @Value(value = "classpath:static/atdev.png")
-    private Resource company;
+//    @Value(value = "classpath:static/atdev.png")
+//    private byte company[];
 
-    @Value(value = "classpath:static/fakeClients.png")
-    private Resource fakeCompany;
+//    @Value(value = "classpath:static/fakeClients.png")
+//    private Resource fakeCompany;
 
     @Override
     public List<PayrollResponse> process(MultipartFile file, @Nullable String locale, @Nullable String company) throws IOException {
@@ -54,6 +54,10 @@ public class PayrollServiceImpl implements IPayrollService {
                 var companyImageFile = this.getCompanyLocalFile(company);
                 var base64Img = this.fileToBase64(companyImageFile);
                 var totalDiscount = this.getTotalDiscount(employee);
+
+                System.out.println("file, " + companyImageFile.length);
+                System.out.println("basee64, " + base64Img);
+                System.out.println("company, " + company);
 
                 map.put("employee", employee);
                 map.put("company", base64Img);
@@ -80,28 +84,25 @@ public class PayrollServiceImpl implements IPayrollService {
         }
     }
 
-    private File getCompanyLocalFile(String company) {
+    private byte[] getCompanyLocalFile(String company) {
         try {
             if(company.toLowerCase().contains("atdev"))
-                return this.company.getFile();
+                return this.getClass().getClassLoader().getResourceAsStream("static/atdev.png").readAllBytes();
 
-            return this.fakeCompany.getFile();
-        } catch (IOException e) {
+            return getClass().getClassLoader().getResourceAsStream("static/fakeCompany.png").readAllBytes();
+        } catch (Exception e) {
             return null;
         }
     }
 
-    private String fileToBase64(@Nullable File file) {
+    private String fileToBase64(@Nullable byte[] file) {
         if(file == null) return null;
-
-        var base64 = new org.apache.tomcat.util.codec.binary.Base64();
-        byte img[];
         try {
-            img = Files.readAllBytes(file.toPath());
-        } catch (IOException e) {
+            var base64 = new org.apache.tomcat.util.codec.binary.Base64();
+            return base64.encodeAsString(file);
+        } catch (Exception e) {
             return null;
         }
-        return base64.encodeAsString(img);
     }
 
     private String getTemplateName(String locale) {

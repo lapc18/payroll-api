@@ -72,7 +72,8 @@
 
 <body>
     <div class="header-container">
-        <img th:src="'data:image/png;base64, ' + ${company}"
+        <img th:src="@{'data:image/png;base64,' + ${company}}"
+             class="logo" />
             class="logo" />
         <div class="header">
             <br />

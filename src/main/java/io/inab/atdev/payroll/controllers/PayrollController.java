@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -39,7 +38,7 @@ public class PayrollController {
     ) {
 
 
-        String[] credentialArr = new String[2];
+        String[] credentialArr;
         credentialArr = credentials.split("\\+", 2);
         if(credentialArr.length < 2) credentialArr = credentials.split(" ", 2);
 
